@@ -1,122 +1,101 @@
-import React, { useEffect } from "react";
-import AOS from "aos";
-import "aos/dist/aos.css";
-// Removed Video imports
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Check, ArrowRight, Briefcase } from 'lucide-react';
 
-const About = () => {
-  useEffect(() => {
-    AOS.init({ once: true, duration: 900, easing: "ease-out-cubic" });
-  }, []);
-
-  // Placeholder image for financial growth theme - replace with your actual asset path if needed
-  const aboutImageSrc = "https://images.unsplash.com/photo-1553729459-efe14ef6055d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
-
+const CredaroAboutSection = () => {
   return (
-    <section
-      // Base dark background color
-      className="relative overflow-hidden bg-slate-950 text-white"
-      id="about"
-    >
-      {/* --- Vector Background Pattern --- */}
-      {/* This SVG sits behind the content using absolute positioning and low opacity */}
-      <div className="absolute inset-0 z-0 opacity-[0.08] pointer-events-none overflow-hidden">
-         <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-                <pattern id="finance-pattern" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
-                    {/* Simple graph up arrow pattern */}
-                    <path d="M10 90 L 30 70 L 50 80 L 90 40" stroke="#07bf69" strokeWidth="2" fill="none"/>
-                    <circle cx="90" cy="40" r="4" fill="#07bf69" />
-                    {/* Subtle grid dots */}
-                    <circle cx="10" cy="10" r="1" fill="currentColor" opacity="0.5"/>
-                    <circle cx="60" cy="60" r="1" fill="currentColor" opacity="0.5"/>
-                </pattern>
-            </defs>
-            <rect x="0" y="0" width="100%" height="100%" fill="url(#finance-pattern)"></rect>
-         </svg>
-      </div>
-
-
-      {/* --- Main Content Container --- */}
-      <div className="relative z-10 mx-auto max-w-7xl px-6 md:px-10 py-20">
+    <section className="relative w-full py-20 px-4 md:px-8 bg-gray-50 flex items-center justify-center overflow-hidden">
+      
+      <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center relative z-10">
         
-        {/* Main Grid: Left Image | Right Content */}
-        <div className="grid items-center gap-12 lg:gap-16 md:grid-cols-2">
-          
-          {/* LEFT SIDE: Image (Replaced Video) */}
-          <div data-aos="fade-right" className="relative">
-              {/* Decorative border accent */}
-             <div className="absolute -inset-4  rounded-xl z-0 transform translate-x-4 translate-y-4 hidden md:block"></div>
-             <img 
-                src={aboutImageSrc} 
-                alt="Credaro Financial Growth" 
-                className="rounded-xl shadow-2xl relative z-10 border border-slate-800 object-cover h-[400px] w-full"
-             />
-          </div>
-
-          {/* RIGHT SIDE: Content */}
-          <div
-            className="flex flex-col justify-center text-left"
-            data-aos="fade-left"
+        {/* LEFT COLUMN: Image Composition */}
+        <div className="relative pl-4 pr-12">
+          <motion.div 
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+            className="relative z-10"
           >
-            {/* Header */}
-            <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white mb-8">
-              About <span className="text-[#07bf69]">Credaro</span>
-            </h1>
+            {/* Background Decorative Border */}
+            <div className="absolute top-[-15px] left-[-15px] w-full h-full border-2 border-[#00C4CC] z-0 hidden md:block"></div>
 
-            <div className="space-y-6 text-base md:text-lg leading-relaxed text-slate-300">
-              <p>
-                Credaro is a specialised financial transformation company built for
-                <span className="text-white font-semibold"> MSMEs and growing businesses in India.</span>
-              </p>
+            {/* Main Image */}
+            <img 
+              src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+              alt="Business Consultant" 
+              className="relative w-full h-[500px] object-cover shadow-lg z-10"
+            />
 
-              {/* Styled emphasis text */}
-              <div className="border-l-4 border-[#07bf69] pl-4 bg-slate-900/50 py-2 rounded-r-lg">
-                <p className="text-white font-medium italic text-lg md:text-xl">
-                  "We don’t just apply for loans."
-                </p>
-              </div>
-
-              <p>
-                We engineer your company’s financials to make you eligible for the
-                <span className="text-[#07bf69] font-bold"> best loans in the market.</span>
-              </p>
+            {/* "15+ Years" Overlay Box */}
+            <div className="absolute bottom-8 -left-4 md:-left-8 bg-[#00C4CC] text-white p-6 md:p-8 z-20 shadow-lg min-w-[180px] text-center">
+                <h3 className="text-4xl font-extrabold">10+</h3>
+                <p className="text-sm font-medium mt-1">Year Of Experience</p>
             </div>
 
-            {/* CTA Button (Unchanged) */}
-            <div className="mt-10">
-              <a
-                href="https://docs.google.com/forms/d/e/1FAIpQLSc8haoOxC0iM-4by9KDP65jwzFfRj-1DKh70Rt2xbbQjmq1CA/viewform"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="relative overflow-hidden w-40 h-12 px-4 bg-[#25975e6e] text-white border-2 border-white rounded-md text-lg font-bold cursor-pointer group flex items-center justify-center"
-              >
-                <span className="relative z-10 flex items-center justify-center gap-2 transition-colors duration-300 group-hover:text-white">
-                  Contact
-                  <svg
-                    aria-hidden="true"
-                    className="h-5 w-5 transform transition-transform duration-300 group-hover:translate-x-1"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M5 12h14" />
-                    <path d="m12 5 7 7-7 7" />
-                  </svg>
-                </span>
-
-                <span className="absolute w-48 h-48 -top-20 -left-4 bg-green-200 rounded-full transform scale-0 group-hover:scale-100 transition-transform group-hover:duration-500 duration-1000"></span>
-                <span className="absolute w-48 h-48 -top-20 -left-4 bg-green-400 rounded-full transform scale-0 group-hover:scale-100 transition-transform group-hover:duration-700 duration-700"></span>
-                <span className="absolute w-48 h-48 -top-20 -left-4 bg-green-600 rounded-full transform scale-0 group-hover:scale-100 transition-transform group-hover:duration-1000 duration-500"></span>
-              </a>
-            </div>
-          </div>
+            {/* Inset Image */}
+            <motion.div 
+              initial={{ y: -20, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.4, duration: 0.6 }}
+              className="absolute -top-10 -right-4 md:-right-12 w-40 md:w-56 border-[6px] border-white shadow-xl z-20"
+            >
+              <img 
+                src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                alt="Financial Calculation" 
+                className="w-full h-full object-cover"
+              />
+            </motion.div>
+          </motion.div>
         </div>
+
+        {/* RIGHT COLUMN: Text Content */}
+        <div className="flex flex-col justify-center">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            {/* Subtitle */}
+            <div className="flex items-center gap-2 mb-4">
+              <span className="text-[#00C4CC] font-bold tracking-widest text-sm uppercase">
+                -- About Credaro
+              </span>
+            </div>
+
+            {/* Main Headline */}
+            {/* Adjusted size to text-3xl/4xl to accommodate the longer text length nicely */}
+            <h2 className="text-3xl md:text-4xl font-extrabold text-[#2A2A5A] leading-tight mb-6">
+              Credaro is a specialised financial transformation company built for MSMEs and growing businesses in India.
+            </h2>
+
+            {/* Highlight Box */}
+            <div className="flex items-center gap-4 mb-6">
+                <div className="bg-[#2A2A5A] p-4 rounded-sm flex-shrink-0">
+                    <Briefcase className="w-5 h-5 text-white" />
+                </div>
+                <p className="text-[#00C4CC] font-bold text-lg leading-snug">
+                   We don’t just apply for loans.
+                </p>
+            </div>
+
+            {/* Description Paragraph */}
+            <p className="text-gray-500 text-lg leading-relaxed mb-8 border-b border-gray-200 pb-8">
+              We engineer your company’s financials to make you eligible for the best loans in the market.
+            </p>  
+            {/* Button */}
+            <button className="bg-[#00C4CC] hover:bg-[#00b0b8] text-white px-8 py-4 font-bold uppercase tracking-wider text-sm flex items-center gap-2 transition-colors duration-300 w-fit">
+                Know About Us 
+                <span className="border-l border-white/30 pl-2 ml-1">
+                    <ArrowRight className="w-4 h-4" />
+                </span>
+            </button>
+
+          </motion.div>
+        </div>
+
       </div>
     </section>
   );
 };
 
-export default About;
+export default CredaroAboutSection;

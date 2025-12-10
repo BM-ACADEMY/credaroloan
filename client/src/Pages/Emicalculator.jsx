@@ -57,10 +57,10 @@ const EmiCalculator = () => {
       legend: { display: false },
       datalabels: {
         color: "#fff",
-        // Reduced font size to fit the smaller chart
-        font: { weight: "bold", size: 12 }, 
+        font: { weight: "bold", size: 12 },
         formatter: (value, ctx) => {
           let sum = ctx.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+          if (sum === 0) return "0%";
           let percentage = ((value / sum) * 100).toFixed(1) + "%";
           return percentage;
         },
@@ -70,22 +70,34 @@ const EmiCalculator = () => {
   };
 
   return (
-    <div className="bg-gradient-to-br from-slate-950 via-slate-900 to-violet-950 min-h-screen flex justify-center items-start p-6 py-12">
-      <div className="bg-white p-10 rounded-3xl shadow-2xl max-w-5xl w-full space-y-8">
+    // CHANGED: Added a 'vector' style background using radial-gradient dots
+    <div className="min-h-screen flex justify-center items-center p-6 py-12 bg-gray-50 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:20px_20px]">
+      
+      <div className="bg-white p-10 rounded-3xl shadow-2xl border border-gray-100 max-w-5xl w-full space-y-8 relative z-10">
         
+        {/* CHANGED: Added Main Heading in Center */}
+        <div className="text-center pb-6 border-b border-gray-100 mb-6">
+          <h1 className="text-3xl font-extrabold text-gray-800">
+            EMI Calculator
+          </h1>
+          <p className="text-gray-500 mt-2">
+            Calculate your loan EMI and total interest payable
+          </p>
+        </div>
+
         {/* Loan Amount */}
         <div className="space-y-2">
           <label className="font-semibold text-gray-700">
-            Equated Monthly Installment (EMI)
+            Loan Amount
           </label>
-          <div className="flex pt-6 gap-4 items-center">
+          <div className="flex pt-4 gap-4 items-center">
             <input
               type="text"
               value={loanAmount}
               onChange={(e) => setLoanAmount(Number(e.target.value))}
-              className="border border-gray-300 rounded-lg px-3 py-2 w-48 focus:outline-none focus:ring-2 focus:ring-orange-400"
+              className="border border-gray-300 rounded-lg px-3 py-2 w-48 focus:outline-none focus:ring-2 focus:ring-orange-400 font-medium text-gray-700"
             />
-            <span className="text-gray-500">INR</span>
+            <span className="text-gray-500 font-medium">INR</span>
           </div>
           <input
             type="range"
@@ -94,7 +106,7 @@ const EmiCalculator = () => {
             step="1000"
             value={loanAmount}
             onChange={(e) => setLoanAmount(Number(e.target.value))}
-            className="w-full h-2 rounded-full accent-orange-500 mt-2"
+            className="w-full h-2 rounded-full accent-orange-500 mt-2 cursor-pointer bg-gray-200"
           />
         </div>
 
@@ -106,9 +118,9 @@ const EmiCalculator = () => {
               type="text"
               value={interestRate}
               onChange={(e) => setInterestRate(Number(e.target.value))}
-              className="border border-gray-300 rounded-lg px-3 py-2 w-20 focus:outline-none focus:ring-2 focus:ring-orange-400"
+              className="border border-gray-300 rounded-lg px-3 py-2 w-20 focus:outline-none focus:ring-2 focus:ring-orange-400 font-medium text-gray-700"
             />
-            <span className="text-gray-500">%</span>
+            <span className="text-gray-500 font-medium">%</span>
           </div>
           <input
             type="range"
@@ -117,7 +129,7 @@ const EmiCalculator = () => {
             step="0.1"
             value={interestRate}
             onChange={(e) => setInterestRate(Number(e.target.value))}
-            className="w-full h-2 rounded-full accent-orange-500 mt-2"
+            className="w-full h-2 rounded-full accent-orange-500 mt-2 cursor-pointer bg-gray-200"
           />
         </div>
 
@@ -139,24 +151,24 @@ const EmiCalculator = () => {
                     : Number(e.target.value)
                 )
               }
-              className="border border-gray-300 rounded-lg px-3 py-2 w-20 focus:outline-none focus:ring-2 focus:ring-orange-400"
+              className="border border-gray-300 rounded-lg px-3 py-2 w-20 focus:outline-none focus:ring-2 focus:ring-orange-400 font-medium text-gray-700"
             />
             <div className="flex border rounded-lg overflow-hidden">
               <button
-                className={`px-4 py-1 ${
+                className={`px-4 py-1 transition-colors font-medium ${
                   tenureType === "Yr"
-                    ? "bg-[#07bf69] text-white"
-                    : "bg-gray-200 text-gray-600"
+                    ? "bg-[#05075a] text-white"
+                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
                 }`}
                 onClick={() => setTenureType("Yr")}
               >
                 Yr
               </button>
               <button
-                className={`px-4 py-1 ${
+                className={`px-4 py-1 transition-colors font-medium ${
                   tenureType === "Mo"
-                    ? "bg-[#07bf69] text-white"
-                    : "bg-gray-200 text-gray-600"
+                    ? "bg-[#05075a] text-white"
+                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
                 }`}
                 onClick={() => setTenureType("Mo")}
               >
@@ -179,13 +191,13 @@ const EmiCalculator = () => {
                   : Number(e.target.value)
               )
             }
-            className="w-full h-2 rounded-full accent-orange-500 mt-2"
+            className="w-full h-2 rounded-full accent-orange-500 mt-2 cursor-pointer bg-gray-200"
           />
         </div>
 
         {/* Results Section */}
-        <div className="grid md:grid-cols-2 gap-8 items-center">
-          <div className="p-6 bg-orange-50 rounded-xl shadow-md space-y-4 h-fit">
+        <div className="grid md:grid-cols-2 gap-8 items-center pt-6">
+          <div className="p-6 bg-orange-50 rounded-xl border border-orange-100 space-y-4 h-fit">
             <h2 className="text-lg font-semibold text-gray-700">Loan EMI</h2>
             <p className="text-2xl font-bold text-green-600">
               {formatINR(emi)}
@@ -212,17 +224,16 @@ const EmiCalculator = () => {
               Break-up of Total Payment
             </h2>
             
-            {/* UPDATED: Reduced width and height to w-64 h-64 (256px) */}
             <div className="w-64 h-64 relative">
               <Doughnut data={data} options={options} />
             </div>
 
             <div className="flex justify-center gap-6 mt-8 text-sm">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 text-gray-600 font-medium">
                 <span className="w-4 h-4 bg-green-500 rounded-full"></span>
                 Principal Loan Amount
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 text-gray-600 font-medium">
                 <span className="w-4 h-4 bg-orange-500 rounded-full"></span>
                 Total Interest
               </div>

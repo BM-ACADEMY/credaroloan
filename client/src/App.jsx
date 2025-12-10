@@ -12,6 +12,8 @@ import Reviews from './Pages/Reivews'
 import Drivebutton from './Pages/drivebutton'
 import VisionMissionSection from './Pages/VisionMissionSection'
 import WhoWeAreSection from './Pages/WhoWeAreSection'
+import BusinessProcess from './Pages/BusinessProcess'
+import WhyChooseCredaro from './Pages/WhyChooseCredaro'
 
 const App = () => {
   return (
@@ -21,9 +23,8 @@ const App = () => {
       <About />
       <VisionMissionSection/>
       <WhoWeAreSection/>
-      {/* <Services />
-      <StepCard />
-      <FAQAccordion /> */}
+      <BusinessProcess/>
+      <WhyChooseCredaro/>
       <EmiCalculator />
       {/* <Drivebutton />
       <Reviews /> */}
