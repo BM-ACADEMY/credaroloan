@@ -4,7 +4,7 @@ import {
   Zap, 
   Puzzle, 
   MessageSquareText, 
-  CheckCircle2 
+  ArrowRight
 } from "lucide-react";
 
 // --- Data Configuration ---
@@ -12,23 +12,29 @@ const features = [
   {
     id: 1,
     title: "Faster decisions",
-    highlight: "Faster",
-    description: "Files are prepared properly and presented in the lender’s language, drastically reducing processing time and back-and-forth queries.",
+    description: "files are prepared properly and presented in the lender’s language.",
     icon: Zap,
+    color: "text-amber-400",
+    bg: "bg-amber-400/10",
+    border: "group-hover:border-amber-400/50"
   },
   {
     id: 2,
     title: "Better product fit",
-    highlight: "Better fit",
-    description: "We analyze your needs (working capital, machinery, expansion, LAP) to find the perfect match instead of one-size-fits-all selling.",
+    description: "We analyze your needs (working capital, machinery, expansion, LAP, etc.) instead of one-size-fits-all selling.",
     icon: Puzzle,
+    color: "text-cyan-400",
+    bg: "bg-cyan-400/10",
+    border: "group-hover:border-cyan-400/50"
   },
   {
     id: 3,
-    title: "Transparent communication",
-    highlight: "Transparent",
-    description: "Clear updates on eligibility, likely approval amounts, and timelines so you can plan your business moves with zero surprises.",
+    title: "Transparent updates",
+    description: "Clear updates on eligibility, likely approval amount, and timelines so there are no surprises.",
     icon: MessageSquareText,
+    color: "text-emerald-400",
+    bg: "bg-emerald-400/10",
+    border: "group-hover:border-emerald-400/50"
   },
 ];
 
@@ -37,16 +43,16 @@ const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.2 },
+    transition: { staggerChildren: 0.15 },
   },
 };
 
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
+const cardVariants = {
+  hidden: { opacity: 0, y: 30 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.5, ease: "easeOut" },
+    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
   },
 };
 
@@ -56,36 +62,40 @@ const FeatureCard = ({ feature }) => {
 
   return (
     <motion.div
-      variants={itemVariants}
+      variants={cardVariants}
       className="group relative h-full"
     >
-      <div className="relative h-full bg-white rounded-[2rem] p-8 md:p-10 border border-slate-100 shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,62,72,0.08)] overflow-hidden">
+      {/* Card Background & Border */}
+      <div className={`relative h-full flex flex-col justify-between bg-slate-900 border border-slate-800 p-8 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-black/50 ${feature.border} border-t-0 border-x-0 border-b-4 rounded-xl overflow-hidden`}>
         
-        {/* Hover Gradient Effect */}
-        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#003E48] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-        
-        {/* Background Blob */}
-        <div className="absolute -right-10 -top-10 w-40 h-40 bg-[#003E48]/5 rounded-full blur-3xl transition-transform duration-500 group-hover:scale-150" />
+        {/* Subtle Gradient Overlay on Hover */}
+        <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
-        {/* Icon */}
-        <div className="relative mb-6 inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-slate-50 text-[#003E48] group-hover:bg-[#003E48] group-hover:text-white transition-all duration-300 shadow-sm">
-          <Icon className="w-8 h-8" strokeWidth={1.5} />
-        </div>
+        <div>
+          {/* Icon Header */}
+          <div className="flex items-center justify-between mb-8">
+            <div className={`p-3 rounded-lg ${feature.bg} ${feature.color} ring-1 ring-white/5`}>
+              <Icon className="w-6 h-6" />
+            </div>
+            <span className="text-slate-500 text-xs font-mono tracking-widest opacity-50 group-hover:opacity-100 transition-opacity">
+              0{feature.id}
+            </span>
+          </div>
 
-        {/* Content */}
-        <div className="relative z-10">
-          <h3 className="text-2xl font-bold text-slate-900 mb-4 group-hover:text-[#003E48] transition-colors duration-300">
-             {/* Splitting title to highlight the first word/phrase if needed, or just rendering text */}
-             {feature.title}
+          {/* Text Content */}
+          <h3 className="text-xl font-semibold text-white mb-3 group-hover:text-white transition-colors">
+            {feature.title}
           </h3>
-          <p className="text-slate-600 leading-relaxed text-base">
+          <p className="text-slate-400 leading-relaxed text-sm">
             {feature.description}
           </p>
         </div>
-
-        {/* Bottom stylized checkmark decoration */}
-        <div className="absolute bottom-6 right-6 opacity-0 transform translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 delay-75">
-          <CheckCircle2 className="w-6 h-6 text-[#003E48]/40" />
+        
+        
+        {/* Learn More Link (Visual Only) */}
+        <div className="mt-8 pt-6 border-t border-slate-800 flex items-center text-sm font-medium text-slate-500 group-hover:text-white transition-colors">
+          <span>Learn more</span>
+          <ArrowRight className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform duration-300" />
         </div>
       </div>
     </motion.div>
@@ -95,57 +105,55 @@ const FeatureCard = ({ feature }) => {
 // --- Main Component ---
 const WhyChooseCredaro = () => {
   return (
-    <section className="py-24 bg-slate-50 relative overflow-hidden">
+    <section className="py-24 bg-[#0B1120] relative overflow-hidden">
       
-      {/* Background Decor Elements */}
-      <div className="absolute inset-0 pointer-events-none">
-         {/* Left Side Decoration */}
-         <div className="absolute top-1/4 left-0 -translate-x-1/2 w-96 h-96 bg-blue-100/40 rounded-full blur-[100px] mix-blend-multiply" />
-         {/* Right Side Decoration */}
-         <div className="absolute bottom-0 right-0 translate-x-1/3 translate-y-1/3 w-[30rem] h-[30rem] bg-teal-100/40 rounded-full blur-[100px] mix-blend-multiply" />
-      </div>
+      {/* Background Grid Pattern */}
+      <div className="absolute inset-0 pointer-events-none opacity-[0.03]" 
+           style={{
+             backgroundImage: 'linear-gradient(#ffffff 1px, transparent 1px), linear-gradient(90deg, #ffffff 1px, transparent 1px)',
+             backgroundSize: '40px 40px'
+           }}
+      ></div>
+
+      {/* Radial Gradient Glows */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[500px] bg-cyan-500/10 blur-[120px] rounded-full pointer-events-none" />
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         
-        {/* Header */}
-        <div className="max-w-3xl mx-auto text-center mb-16 md:mb-20">
-          <motion.span 
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="inline-block px-4 py-1.5 mb-4 text-sm font-semibold tracking-wide text-[#003E48] uppercase bg-[#003E48]/10 rounded-full"
-          >
-            The Credaro Advantage
-          </motion.span>
+        {/* Header Section */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6 max-w-7xl mx-auto">
+          <div className="max-w-2xl">
+            <motion.div 
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="flex items-center gap-2 mb-4"
+            >
+              <div className="h-px w-8 bg-cyan-500"></div>
+              <span className="text-cyan-500 font-semibold tracking-wider text-sm uppercase">The Advantage</span>
+            </motion.div>
+            
+            <motion.h2 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="text-3xl md:text-5xl font-bold text-white tracking-tight"
+            >
+              Why SMEs trust <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-teal-400">Credaro</span>
+            </motion.h2>
+          </div>
+
           
-          <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="text-3xl md:text-5xl font-extrabold text-slate-900 tracking-tight mb-6"
-          >
-            Why SMEs choose <span className="text-[#003E48]">Credaro</span>
-          </motion.h2>
-          
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="text-lg text-slate-600 max-w-2xl mx-auto"
-          >
-            We don't just process loans; we engineer the right financial path for your business growth.
-          </motion.p>
         </div>
 
-        {/* Grid */}
+        {/* Features Grid */}
         <motion.div 
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-50px" }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto"
+          className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-7xl mx-auto"
         >
           {features.map((feature) => (
             <FeatureCard key={feature.id} feature={feature} />

@@ -14,6 +14,7 @@ import VisionMissionSection from './Pages/VisionMissionSection'
 import WhoWeAreSection from './Pages/WhoWeAreSection'
 import BusinessProcess from './Pages/BusinessProcess'
 import WhyChooseCredaro from './Pages/WhyChooseCredaro'
+import LoanTypesTimeline from './Pages/LoanTypesTimeline'
 
 const App = () => {
   return (
@@ -25,6 +26,7 @@ const App = () => {
       <WhoWeAreSection/>
       <BusinessProcess/>
       <WhyChooseCredaro/>
+      <LoanTypesTimeline/>
       <EmiCalculator />
       {/* <Drivebutton />
       <Reviews /> */}

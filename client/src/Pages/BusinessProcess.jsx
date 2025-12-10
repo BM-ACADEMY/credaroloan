@@ -82,7 +82,7 @@ const ProcessCard = ({ step, index }) => {
             </div>
             
             {/* Stylized Number */}
-            <span className="text-6xl font-black text-slate-100 group-hover:text-[#003E48]/10 transition-colors duration-500 font-sans tracking-tighter">
+            <span className="text-6xl font-black text-slate-400 group-hover:text-[#003E48]/10 transition-colors duration-500 font-sans tracking-tighter">
               0{index + 1}
             </span>
           </div>
