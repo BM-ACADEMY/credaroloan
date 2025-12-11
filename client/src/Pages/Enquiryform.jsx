@@ -6,7 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 export default function EnquiryForm({ onClose }) {
   const [form, setForm] = useState({
     name: "",
-    email: "", 
+    email: "",
     company: "",
     industry: "",
     location: "",
@@ -22,12 +22,10 @@ export default function EnquiryForm({ onClose }) {
     // --- 1. SPECIAL VALIDATION FOR MOBILE ---
     if (name === "mobile") {
       // Only allow if the value is Numbers (0-9) AND length is <= 10
-      // /^\d*$/ allows empty string (for deleting) or digits only
       if (/^\d*$/.test(value) && value.length <= 10) {
         setForm({ ...form, [name]: value });
       }
     } else {
-      // Standard handling for all other fields
       setForm({ ...form, [name]: value });
     }
   };
@@ -36,14 +34,20 @@ export default function EnquiryForm({ onClose }) {
     e.preventDefault();
     setLoading(true);
 
-    // Use this if you are using Vite
-    const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000/api/credaro/credaro-email";
+    // Google Web App URL
+    const googleScriptURL = "https://script.google.com/macros/s/AKfycbyPROrkOyUgBd3-5RjPfmSdxzNbfM4YvaNpNtO_d4fHhhvY8km9VBGWzX9r-zpL7qyk/exec";
 
     try {
-      const res = await axios.post(apiUrl, form);
-      toast.success(res.data.message || "Enquiry sent successfully!");
-      
-      // Reset form
+      // 1. Manually stringify the JSON payload
+      const requestBody = JSON.stringify(form);
+
+      // 2. Send as "text/plain" to avoid the CORS Preflight (OPTIONS) check
+      await axios.post(googleScriptURL, requestBody, {
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+      });
+
+      toast.success("Enquiry sent successfully!");
+
       setForm({
         name: "",
         email: "",
@@ -53,10 +57,6 @@ export default function EnquiryForm({ onClose }) {
         mobile: "",
         message: "",
       });
-      
-      // Optional: Close modal automatically after success
-      // setTimeout(() => onClose(), 2000); 
-
     } catch (err) {
       console.error(err);
       toast.error("Failed to send enquiry. Please try again.");
@@ -69,10 +69,9 @@ export default function EnquiryForm({ onClose }) {
     <>
       {/* Toast Notification Container */}
       <ToastContainer position="top-right" autoClose={3000} />
-      
+
       <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-md px-4">
         <div className="bg-white rounded-xl shadow-2xl p-6 w-full max-w-lg relative max-h-[90vh] overflow-y-auto">
-          
           {/* Close button */}
           <button
             className="absolute top-3 right-3 text-gray-700 hover:text-gray-900 text-xl font-bold"
@@ -86,10 +85,11 @@ export default function EnquiryForm({ onClose }) {
           </h2>
 
           <form className="space-y-4" onSubmit={handleSubmit}>
-            
             {/* Name */}
             <div className="flex flex-col">
-              <label className="mb-1 text-gray-700 font-medium">Name <span className="text-red-500">*</span></label>
+              <label className="mb-1 text-gray-700 font-medium">
+                Name <span className="text-red-500">*</span>
+              </label>
               <input
                 type="text"
                 name="name"
@@ -103,7 +103,9 @@ export default function EnquiryForm({ onClose }) {
 
             {/* Email */}
             <div className="flex flex-col">
-              <label className="mb-1 text-gray-700 font-medium">Email <span className="text-red-500">*</span></label>
+              <label className="mb-1 text-gray-700 font-medium">
+                Email <span className="text-red-500">*</span>
+              </label>
               <input
                 type="email"
                 name="email"
@@ -115,9 +117,11 @@ export default function EnquiryForm({ onClose }) {
               />
             </div>
 
-            {/* Mobile - UPDATED INPUT */}
+            {/* Mobile */}
             <div className="flex flex-col">
-              <label className="mb-1 text-gray-700 font-medium">Mobile <span className="text-red-500">*</span></label>
+              <label className="mb-1 text-gray-700 font-medium">
+                Mobile <span className="text-red-500">*</span>
+              </label>
               <input
                 type="tel"
                 name="mobile"
@@ -125,7 +129,7 @@ export default function EnquiryForm({ onClose }) {
                 value={form.mobile}
                 onChange={handleChange}
                 required
-                maxLength="10" 
+                maxLength="10"
                 pattern="[0-9]{10}"
                 title="Please enter a valid 10-digit mobile number"
                 className="w-full px-4 py-2 border border-gray-300 rounded-md placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -134,7 +138,9 @@ export default function EnquiryForm({ onClose }) {
 
             {/* Company */}
             <div className="flex flex-col">
-              <label className="mb-1 text-gray-700 font-medium">Company <span className="text-red-500">*</span></label>
+              <label className="mb-1 text-gray-700 font-medium">
+                Company <span className="text-red-500">*</span>
+              </label>
               <input
                 type="text"
                 name="company"
@@ -148,7 +154,9 @@ export default function EnquiryForm({ onClose }) {
 
             {/* Industry */}
             <div className="flex flex-col">
-              <label className="mb-1 text-gray-700 font-medium">Industry <span className="text-red-500">*</span></label>
+              <label className="mb-1 text-gray-700 font-medium">
+                Industry <span className="text-red-500">*</span>
+              </label>
               <input
                 type="text"
                 name="industry"
@@ -162,7 +170,9 @@ export default function EnquiryForm({ onClose }) {
 
             {/* Location */}
             <div className="flex flex-col">
-              <label className="mb-1 text-gray-700 font-medium">Location</label>
+              <label className="mb-1 text-gray-700 font-medium">
+                Location
+              </label>
               <input
                 type="text"
                 name="location"
@@ -175,7 +185,9 @@ export default function EnquiryForm({ onClose }) {
 
             {/* Message */}
             <div className="flex flex-col">
-              <label className="mb-1 text-gray-700 font-medium">Message (if any)</label>
+              <label className="mb-1 text-gray-700 font-medium">
+                Message (if any)
+              </label>
               <textarea
                 name="message"
                 placeholder="Write your message here..."
