@@ -3,7 +3,7 @@ import { X, ChevronDown, Menu } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Logo from "../assets/logo.png";
 // 1. Import the Enquiry Form (Ensure the file path is correct)
-import EnquiryForm from "./EnquiryForm"; 
+import EnquiryForm from "./Enquiryform"; 
 
 const Header = () => {
   const [activeLink, setActiveLink] = useState("Home");
