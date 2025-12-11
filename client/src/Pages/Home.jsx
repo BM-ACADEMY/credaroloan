@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronRight } from 'lucide-react';
+// 1. Import the Enquiry Form
+import EnquiryForm from "./EnquiryForm"; 
 
 const Home = () => {
   const [activeSlide, setActiveSlide] = useState(1);
+  // 2. Add state for the modal
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Auto-rotate slides every 5 seconds
   useEffect(() => {
@@ -69,7 +73,7 @@ const Home = () => {
   );
 
   return (
-    <div className="relative w-full min-h-screen bg-[#1a1f3c] overflow-hidden font-sans text-white selection:bg-cyan-400 selection:text-slate-900">
+    <div className="relative w-full min-h-screen bg-[#1a1f3c] overflow-hidden font-sans text-white selection:bg-cyan-400 selection:text-slate-900" id='home'>
       
       {/* Background Images with Crossfade */}
       <div className="absolute inset-0 z-0">
@@ -106,10 +110,7 @@ const Home = () => {
       {/* Decorative Top Left Waves */}
       <WavePattern />
 
-      {/* MOVED HERE: Left Side Indicators 
-         Changed 'fixed' to 'absolute' so it stays inside this section.
-         Kept 'hidden lg:flex' so it hides on mobile/tablet.
-      */}
+      {/* Left Side Indicators */}
       <div className="hidden lg:flex flex-col gap-6 mr-12 text-xs font-semibold tracking-widest text-gray-500 absolute left-8 top-1/2 transform -translate-y-1/2 z-30">
         {[1, 2, 3].map((num) => (
           <div 
@@ -133,7 +134,6 @@ const Home = () => {
       <div className="relative z-20 container mx-auto px-4 sm:px-6 min-h-screen flex flex-col lg:flex-row items-center justify-center lg:justify-start">
         
         {/* Main Content Area */}
-        {/* Added lg:pl-28 to push content slightly right so it doesn't overlap the absolute indicators */}
         <motion.div 
           className="flex-1 w-full lg:pl-28 flex flex-col items-center justify-center text-center lg:items-start lg:justify-start lg:text-left py-12 lg:py-0"
           initial="hidden"
@@ -171,9 +171,12 @@ const Home = () => {
             and negotiate like a <strong className="text-white">CFO</strong>.
           </motion.p>
 
-          {/* Action Buttons */}
+          {/* 3. Action Buttons with onClick Handler */}
           <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto justify-center lg:justify-start">
-            <button className="w-full sm:w-auto group px-8 py-4 border border-cyan-400/30 text-white font-bold uppercase tracking-wide hover:bg-cyan-400/10 transition-colors active:scale-95 flex items-center justify-center gap-2">
+            <button 
+              onClick={() => setIsModalOpen(true)}
+              className="w-full sm:w-auto group px-8 py-4 border border-cyan-400/30 text-white font-bold uppercase tracking-wide hover:bg-cyan-400/10 transition-colors active:scale-95 flex items-center justify-center gap-2"
+            >
               Get Started
               <div className="w-6 h-6 rounded-full border border-current flex items-center justify-center ml-2 group-hover:bg-cyan-400 group-hover:border-cyan-400 group-hover:text-slate-900 transition-all">
                 <ChevronRight className="w-3 h-3" />
@@ -182,7 +185,7 @@ const Home = () => {
           </motion.div>
         </motion.div>
 
-        {/* Right Side - Empty/Spacious - Hidden on mobile entirely to let text take focus */}
+        {/* Right Side - Empty/Spacious */}
         <div className="hidden lg:block w-1/3 h-full relative pointer-events-none">
             <div className="absolute right-0 bottom-0 w-full h-1/2 bg-gradient-to-t from-cyan-400/5 to-transparent"></div>
         </div>
@@ -191,6 +194,9 @@ const Home = () => {
 
       {/* Bottom fade */}
       <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[#1a1f3c] to-transparent pointer-events-none z-20"></div>
+
+      {/* 4. Render the Enquiry Form when state is true */}
+      {isModalOpen && <EnquiryForm onClose={() => setIsModalOpen(false)} />}
     </div>
   );
 };

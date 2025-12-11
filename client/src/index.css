@@ -28,7 +28,7 @@
 /* For Firefox */
 * {
   scrollbar-width: thin;                     /* thin scrollbar */
-  scrollbar-color: #07bf69 #1d2240;          /* thumb | track */
+  scrollbar-color: #05075a rgb(190, 199, 250);          /* thumb | track */
 }
 
 @theme inline {

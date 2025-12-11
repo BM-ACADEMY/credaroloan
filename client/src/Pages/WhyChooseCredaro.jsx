@@ -90,13 +90,7 @@ const FeatureCard = ({ feature }) => {
             {feature.description}
           </p>
         </div>
-        
-        
-        {/* Learn More Link (Visual Only) */}
-        <div className="mt-8 pt-6 border-t border-slate-800 flex items-center text-sm font-medium text-slate-500 group-hover:text-white transition-colors">
-          <span>Learn more</span>
-          <ArrowRight className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform duration-300" />
-        </div>
+
       </div>
     </motion.div>
   );
@@ -105,7 +99,7 @@ const FeatureCard = ({ feature }) => {
 // --- Main Component ---
 const WhyChooseCredaro = () => {
   return (
-    <section className="py-24 bg-[#0B1120] relative overflow-hidden">
+    <section className="py-24 bg-[#0B1120] relative overflow-hidden" id="whysmes">
       
       {/* Background Grid Pattern */}
       <div className="absolute inset-0 pointer-events-none opacity-[0.03]" 

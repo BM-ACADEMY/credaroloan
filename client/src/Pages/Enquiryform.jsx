@@ -6,9 +6,11 @@ import "react-toastify/dist/ReactToastify.css";
 export default function EnquiryForm({ onClose }) {
   const [form, setForm] = useState({
     name: "",
-    phone: "",
-    email: "", // new field
-    address: "",
+    email: "", 
+    company: "",
+    industry: "",
+    location: "",
+    mobile: "",
     message: "",
   });
 
@@ -16,20 +18,48 @@ export default function EnquiryForm({ onClose }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm({ ...form, [name]: value });
+
+    // --- 1. SPECIAL VALIDATION FOR MOBILE ---
+    if (name === "mobile") {
+      // Only allow if the value is Numbers (0-9) AND length is <= 10
+      // /^\d*$/ allows empty string (for deleting) or digits only
+      if (/^\d*$/.test(value) && value.length <= 10) {
+        setForm({ ...form, [name]: value });
+      }
+    } else {
+      // Standard handling for all other fields
+      setForm({ ...form, [name]: value });
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
+    // Use this if you are using Vite
+    const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000/api/credaro/credaro-email";
+
     try {
-      const res = await axios.post("https://loanguruweb.onrender.com/send-email", form);
-      toast.success(res.data.message);
-      setForm({ name: "", phone: "", email: "", address: "", message: "" });
+      const res = await axios.post(apiUrl, form);
+      toast.success(res.data.message || "Enquiry sent successfully!");
+      
+      // Reset form
+      setForm({
+        name: "",
+        email: "",
+        company: "",
+        industry: "",
+        location: "",
+        mobile: "",
+        message: "",
+      });
+      
+      // Optional: Close modal automatically after success
+      // setTimeout(() => onClose(), 2000); 
+
     } catch (err) {
       console.error(err);
-      toast.error("Failed to send enquiry.");
+      toast.error("Failed to send enquiry. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -37,9 +67,12 @@ export default function EnquiryForm({ onClose }) {
 
   return (
     <>
+      {/* Toast Notification Container */}
       <ToastContainer position="top-right" autoClose={3000} />
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-md px-4">
-        <div className="bg-white rounded-xl shadow-2xl p-6 w-full max-w-md relative">
+      
+      <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-md px-4">
+        <div className="bg-white rounded-xl shadow-2xl p-6 w-full max-w-lg relative max-h-[90vh] overflow-y-auto">
+          
           {/* Close button */}
           <button
             className="absolute top-3 right-3 text-gray-700 hover:text-gray-900 text-xl font-bold"
@@ -53,28 +86,15 @@ export default function EnquiryForm({ onClose }) {
           </h2>
 
           <form className="space-y-4" onSubmit={handleSubmit}>
-            {/* Full Name */}
+            
+            {/* Name */}
             <div className="flex flex-col">
-              <label className="mb-1 text-gray-700 font-medium">Full Name</label>
+              <label className="mb-1 text-gray-700 font-medium">Name <span className="text-red-500">*</span></label>
               <input
                 type="text"
                 name="name"
-                placeholder="Enter your full name"
+                placeholder="Enter your name"
                 value={form.name}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-2 border border-gray-300 rounded-md placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-
-            {/* Phone Number */}
-            <div className="flex flex-col">
-              <label className="mb-1 text-gray-700 font-medium">Phone Number</label>
-              <input
-                type="tel"
-                name="phone"
-                placeholder="Enter your phone number"
-                value={form.phone}
                 onChange={handleChange}
                 required
                 className="w-full px-4 py-2 border border-gray-300 rounded-md placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -83,11 +103,11 @@ export default function EnquiryForm({ onClose }) {
 
             {/* Email */}
             <div className="flex flex-col">
-              <label className="mb-1 text-gray-700 font-medium">Email</label>
+              <label className="mb-1 text-gray-700 font-medium">Email <span className="text-red-500">*</span></label>
               <input
                 type="email"
                 name="email"
-                placeholder="Enter your email"
+                placeholder="Enter your email address"
                 value={form.email}
                 onChange={handleChange}
                 required
@@ -95,29 +115,73 @@ export default function EnquiryForm({ onClose }) {
               />
             </div>
 
-            {/* Address */}
+            {/* Mobile - UPDATED INPUT */}
             <div className="flex flex-col">
-              <label className="mb-1 text-gray-700 font-medium">Address</label>
+              <label className="mb-1 text-gray-700 font-medium">Mobile <span className="text-red-500">*</span></label>
+              <input
+                type="tel"
+                name="mobile"
+                placeholder="Enter 10-digit mobile number"
+                value={form.mobile}
+                onChange={handleChange}
+                required
+                maxLength="10" 
+                pattern="[0-9]{10}"
+                title="Please enter a valid 10-digit mobile number"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+
+            {/* Company */}
+            <div className="flex flex-col">
+              <label className="mb-1 text-gray-700 font-medium">Company <span className="text-red-500">*</span></label>
               <input
                 type="text"
-                name="address"
-                placeholder="Enter your address"
-                value={form.address}
+                name="company"
+                placeholder="Enter company name"
+                value={form.company}
                 onChange={handleChange}
                 required
                 className="w-full px-4 py-2 border border-gray-300 rounded-md placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
 
-            {/* Message */}
+            {/* Industry */}
             <div className="flex flex-col">
-              <label className="mb-1 text-gray-700 font-medium">Message</label>
-              <textarea
-                name="message"
-                placeholder="Write your message"
-                value={form.message}
+              <label className="mb-1 text-gray-700 font-medium">Industry <span className="text-red-500">*</span></label>
+              <input
+                type="text"
+                name="industry"
+                placeholder="e.g. Manufacturing, IT, Retail"
+                value={form.industry}
                 onChange={handleChange}
                 required
+                className="w-full px-4 py-2 border border-gray-300 rounded-md placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+
+            {/* Location */}
+            <div className="flex flex-col">
+              <label className="mb-1 text-gray-700 font-medium">Location</label>
+              <input
+                type="text"
+                name="location"
+                placeholder="City or State"
+                value={form.location}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border border-gray-300 rounded-md placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+
+            {/* Message */}
+            <div className="flex flex-col">
+              <label className="mb-1 text-gray-700 font-medium">Message (if any)</label>
+              <textarea
+                name="message"
+                placeholder="Write your message here..."
+                value={form.message}
+                onChange={handleChange}
+                rows="3"
                 className="w-full px-4 py-2 border border-gray-300 rounded-md placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
@@ -125,9 +189,9 @@ export default function EnquiryForm({ onClose }) {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-md transition"
+              className="w-full py-3 bg-[#192d51] hover:bg-[#192d51]/90 text-white font-bold rounded-md transition duration-300 shadow-md"
             >
-              {loading ? "Sending..." : "Send Enquiry"}
+              {loading ? "Sending..." : "Submit Enquiry"}
             </button>
           </form>
         </div>

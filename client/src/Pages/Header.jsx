@@ -2,12 +2,17 @@ import React, { useState, useEffect } from "react";
 import { X, ChevronDown, Menu } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Logo from "../assets/logo.png";
+// 1. Import the Enquiry Form (Ensure the file path is correct)
+import EnquiryForm from "./EnquiryForm"; 
 
 const Header = () => {
   const [activeLink, setActiveLink] = useState("Home");
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOffcanvasOpen, setIsOffcanvasOpen] = useState(false);
   const [openMobileDropdown, setOpenMobileDropdown] = useState(null);
+
+  // 2. New State for Enquiry Modal
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Handle Scroll Effect
   useEffect(() => {
@@ -19,15 +24,8 @@ const Header = () => {
   const mainNavLinks = [
     { name: "Home", path: "#home" },
     { name: "About", path: "#about" },
-    {
-      name: "Services",
-      hasDropdown: true,
-      dropdownContent: [
-        { name: "Loan Consulting", path: "#services" },
-        { name: "Documentation", path: "#services" },
-        { name: "Bank Coordination", path: "#services" },
-      ],
-    },
+    { name: "Who We Are", path: "#whoweare" },
+    { name: "Why SMEs", path: "#whysmes" },
     { name: "Contact", path: "#contact" },
   ];
 
@@ -52,10 +50,8 @@ const Header = () => {
       <motion.header
         initial={{ y: -100 }}
         animate={{ y: 0 }}
-        className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 bg-white shadow-md ${
-          isScrolled
-            ? "py-3" // Scrolled: Smaller padding
-            : "py-5" // Top: Larger padding
+        className={`fixed top-0 left-0 w-full z-40 transition-all duration-300 bg-white shadow-md ${
+          isScrolled ? "py-3" : "py-5"
         }`}
       >
         <div className="container mx-auto px-4 md:px-8 lg:px-16 flex items-center justify-between">
@@ -79,7 +75,7 @@ const Header = () => {
                   className={`flex items-center gap-1 text-[15px] font-medium transition-colors duration-300 ${
                     activeLink === item.name 
                       ? "text-[#05075a]" 
-                      : "text-gray-700 hover:text-[#05075a]" // Always Dark text now
+                      : "text-gray-700 hover:text-[#05075a]"
                   }`}
                 >
                   {item.name}
@@ -91,7 +87,7 @@ const Header = () => {
                   )}
                 </a>
 
-                {/* Animated Underline for active state */}
+                {/* Animated Underline */}
                 {activeLink === item.name && !item.hasDropdown && (
                   <motion.div
                     layoutId="underline"
@@ -120,15 +116,14 @@ const Header = () => {
             ))}
           </nav>
 
-          {/* Desktop CTA Button */}
+          {/* 3. Desktop CTA Button - Modified to Open Modal */}
           <div className="hidden lg:block">
-            <a
-              href="#contact"
-              onClick={(e) => navigateTo(e, "#contact", "Contact")}
-              className="px-6 py-2.5 rounded-full bg-[#05075a] text-white text-sm font-semibold shadow-lg  hover:-translate-y-0.5 transition-all duration-300"
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="px-6 py-2.5 rounded-full bg-[#05075a] text-white text-sm font-semibold shadow-lg hover:-translate-y-0.5 transition-all duration-300"
             >
               Get Started
-            </a>
+            </button>
           </div>
 
           {/* Mobile Toggle Button */}
@@ -224,20 +219,25 @@ const Header = () => {
                 ))}
               </div>
 
-              {/* Mobile Footer */}
+              {/* 4. Mobile Footer CTA - Modified to Open Modal */}
               <div className="p-6 bg-gray-50">
-                <a
-                  href="#contact"
-                  onClick={(e) => navigateTo(e, "#contact", "Contact")}
+                <button
+                  onClick={() => {
+                    setIsOffcanvasOpen(false); // Close menu first
+                    setIsModalOpen(true); // Open Modal
+                  }}
                   className="flex items-center justify-center w-full py-3 bg-[#05075a] text-white rounded-lg font-semibold shadow-lg shadow-green-500/20 active:scale-95 transition-transform"
                 >
                   Contact Us
-                </a>
+                </button>
               </div>
             </motion.div>
           </>
         )}
       </AnimatePresence>
+
+      {/* 5. Render Enquiry Form Conditionaly */}
+      {isModalOpen && <EnquiryForm onClose={() => setIsModalOpen(false)} />}
     </>
   );
 };
