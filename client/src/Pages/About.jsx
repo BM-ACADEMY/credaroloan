@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Check, ArrowRight, Briefcase } from 'lucide-react';
-// 1. Import the Enquiry Form
-import EnquiryForm from "./Enquiryform"; 
+import EnquiryForm from './Enquiryform';
 
 
 const CredaroAboutSection = () => {
