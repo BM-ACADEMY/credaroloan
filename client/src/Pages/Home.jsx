@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronRight } from 'lucide-react';
 // 1. Import the Enquiry Form
-import EnquiryForm from "./EnquiryForm"; 
+import EnquiryForm from "./Enquiryform"; 
+
 
 const Home = () => {
   const [activeSlide, setActiveSlide] = useState(1);
