@@ -88,10 +88,10 @@ export default function Footer() {
               transparency and results.
             </p>
             <div className="flex space-x-4">
-              <SocialLink href="https://www.facebook.com/share/1a6WLYmDTD/">
+              <SocialLink href="https://www.facebook.com/profile.php?id=61584643755603">
                 <FaFacebookF size={18} />
               </SocialLink>
-              <SocialLink href="https://www.instagram.com/loanguru2025/#">
+              <SocialLink href="https://www.instagram.com/cread_aro/">
                 <FaInstagram size={18} />
               </SocialLink>
             </div>
@@ -129,7 +129,7 @@ export default function Footer() {
             <AnimatedHeading text="Get in Touch" />
             <div className="space-y-4 text-sm text-gray-300">
               <ContactItem icon={<FaPhoneAlt />} text="+91 9791663671" />
-              <ContactItem icon={<FaEnvelope />} text="info@loanguru4u.com" />
+              <ContactItem icon={<FaEnvelope />} text="connect@credaro.com" />
               <ContactItem 
                 icon={<FaMapMarkerAlt />} 
                 text="LOKESH TOWER Old Door No.110/2, then Door No.18, Now New Door No.37, Kodambakkam High Road, Nungambakkam, Chennai – 600 034, Tamilnadu, India" 
