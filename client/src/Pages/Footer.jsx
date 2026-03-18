@@ -128,11 +128,11 @@ export default function Footer() {
           <motion.div variants={itemVariants}>
             <AnimatedHeading text="Get in Touch" />
             <div className="space-y-4 text-sm text-gray-300">
-              <ContactItem icon={<FaPhoneAlt />} text="+91 9791663671" />
+              <ContactItem icon={<FaPhoneAlt />} text="+91 91235 73048" />
               <ContactItem icon={<FaEnvelope />} text="connect@credaro.com" />
               <ContactItem 
                 icon={<FaMapMarkerAlt />} 
-                text="LOKESH TOWER Old Door No.110/2, then Door No.18, Now New Door No.37, Kodambakkam High Road, Nungambakkam, Chennai – 600 034, Tamilnadu, India" 
+                text="5th Floor Modern Tower Door No.23, West Cott Road, Royapettah, Chennai 600 014 , Tamilnadu , India" 
               />
             </div>
           </motion.div>
